@@ -1,0 +1,21 @@
+language: node_js
+
+sudo: false
+
+node_js:
+  - 6
+
+install:
+  - npm install -g yarn
+  - yarn install
+
+script:
+  - npm run test:unit && npm run test:security && npm run lint
+
+after_success:
+  - cat ./test/unit/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+
+notifications:
+  email:
+    on_success: never
+    on_failure: change
