@@ -4,6 +4,10 @@
 
 Simple implementation of Material Input with no dependencies.
 
+## Showcase
+
+![Showcase](https://raw.githubusercontent.com/wemake-services/vue-material-input/screenshots/vue-material-input.gif)
+
 ## Installation
 
 ```bash
@@ -36,4 +40,4 @@ const vm = new Vue({
 })
 ```
 
-For more examples, please check `/dev` folder and the project's website.
+For more examples, please check `/dev` folder and the [project's website](http://wemake.services/vue-material-input).

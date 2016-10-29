@@ -103,9 +103,9 @@ $RECYCLE.BIN/
 test/unit/coverage
 
 # Built files:
-index.js
-style.css
+/index.js
+/style.css
 
 # vue-dev-server
 dev/index.js
-static/
+docs/

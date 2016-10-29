@@ -5524,9 +5524,9 @@ vue:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.0.3.tgz#3f7698f83d6ad1f0e35955447901672876c63fde"
 
-vue-dev-server:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/vue-dev-server/-/vue-dev-server-2.0.1.tgz#1d25452400864e214c337bfa2313f0a7311f3e3f"
+vue-dev-server@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/vue-dev-server/-/vue-dev-server-2.0.2.tgz#2ec2dced455f70aaccd9aa4383854d2c1ce15c56"
   dependencies:
     chokidar "^1.6.0"
     coffee-script "^1.11.1"

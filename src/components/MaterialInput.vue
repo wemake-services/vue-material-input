@@ -4,6 +4,7 @@
       v-if="type === 'email'"
       type="email"
       class="material-input"
+      :class="{'material-input--has-value': hasValue}"
       :name="name"
       :id="id"
       v-model="valueCopy"
@@ -17,6 +18,7 @@
       v-if="type === 'url'"
       type="url"
       class="material-input"
+      :class="{'material-input--has-value': hasValue}"
       :name="name"
       :id="id"
       v-model="valueCopy"
@@ -30,6 +32,7 @@
       v-if="type === 'number'"
       type="number"
       class="material-input"
+      :class="{'material-input--has-value': hasValue}"
       :name="name"
       :id="id"
       v-model="valueCopy"
@@ -46,8 +49,9 @@
     >
     <input
       v-if="type === 'password'"
-      type="number"
+      type="password"
       class="material-input"
+      :class="{'material-input--has-value': hasValue}"
       :name="name"
       :id="id"
       v-model="valueCopy"
@@ -64,6 +68,7 @@
       v-if="type === 'text'"
       type="text"
       class="material-input"
+      :class="{'material-input--has-value': hasValue}"
       :name="name"
       :id="id"
       v-model="valueCopy"
@@ -87,6 +92,11 @@
 <script>
   export default {
     name: 'material-input',
+    computed: {
+      hasValue () {
+        return !!this.valueCopy
+      }
+    },
     data () {
       return {
         valueCopy: null
@@ -102,7 +112,7 @@
         this.$el.querySelector(
           'input'
         ).addEventListener(
-          'input', (e) => vm.$emit('input', e.target.value), true
+          'input', (e) => vm.$emit('input', e.target.value), false
         )
       }
     },
@@ -161,12 +171,16 @@
 <style lang="scss">
   // Fonts:
   $font-size-base: 16px;
+  $font-size-small: 14px;
   $font-weight-normal: normal;
 
   // Colors:
   $color-white: white;
-  $color-grey: grey;
-  $color-blue: blue;
+  $color-grey: #9E9E9E;
+  $color-grey-light: #E0E0E0;
+  $color-blue: #2196F3;
+  $color-red: #F44336;
+  $color-black: black;
 
   // Utils
   $spacer: 10px;
@@ -179,15 +193,22 @@
     width: 0;
     bottom: 1px;
     position: absolute;
-    background: $color-white;
+    background: $color-blue;
     transition: $transition;
+  }
+
+  // Mixins
+  @mixin slided-top() {
+    top: -2 * $spacer;
+    font-size: $font-size-small;
   }
 
   // Component:
 
   .material-input__component {
-    margin-bottom: 45px;
+    margin-top: 45px;
     position: relative;
+    background: $color-white;
 
     * {
       box-sizing: border-box;
@@ -200,8 +221,8 @@
       width: 100%;
       border: none;
       background: none;
-      color: $color-white;
-      border-bottom: 1px solid $color-grey;
+      color: $color-black;
+      border-bottom: 1px solid $color-grey-light;
 
       &:focus {
         outline: none;
@@ -216,15 +237,30 @@
         }
       }
 
-      &:focus ~ label, &:valid ~ label    {
-        top: -2 * $spacer;
-        font-size: 14px;
-        color: $color-white;
+      &:focus ~ label,
+      &:valid ~ label {
+        @include slided-top();
+        color: $color-blue;
+      }
+
+      // When form validation is active these styles will
+      // highlight the errored input.
+      &.material-input--has-value:invalid {
+        ~ .material-input-bar {
+          &:before, &:after {
+            background: $color-red;
+          }
+        }
+
+        ~ label {
+          @include slided-top();
+          color: $color-red;
+        }
       }
     }
 
     label {
-      color: $color-white;
+      color: $color-grey;
       font-size: $font-size-base;
       font-weight: $font-weight-normal;
       position: absolute;

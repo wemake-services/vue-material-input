@@ -11,8 +11,16 @@
     "test": "npm run test:unit && npm run test:security",
     "lint": "eslint --ext .js,.vue src test/unit/specs dev",
     "dev:server": "./node_modules/.bin/vue-dev-server",
-    "ghpages": "./node_modules/.bin/vue-dev-server --static static/ && ./node_modules/.bin/gh-pages -d static"
+    "ghpages": "./node_modules/.bin/vue-dev-server --static docs/ && ./node_modules/.bin/gh-pages -d docs"
   },
+  "files": [
+    "src/",
+    "dev/",
+    "build/",
+    "style.css",
+    "index.js",
+    "README.md"
+  ],
   "peerDependencies": {
     "vue": "~2.0"
   },
@@ -92,5 +100,8 @@
     "url": "https://github.com/wemake-services/razgrebaem.ru.git",
     "type": "git"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "vue-dev-server": "2.0.2"
+  }
 }
