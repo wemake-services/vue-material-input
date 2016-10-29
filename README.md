@@ -40,4 +40,4 @@ const vm = new Vue({
 })
 ```
 
-For more examples, please check `/dev` folder and the [project's website](http://wemake.services/vue-material-input).
+For more examples, please check [`/dev`](https://github.com/wemake-services/vue-material-input/tree/master/dev) folder and the [project's website](http://wemake.services/vue-material-input).
