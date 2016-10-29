@@ -5,6 +5,8 @@
   "author": "sobolevn <mail@sobolevn.me>",
   "private": false,
   "scripts": {
+    "publish-please": "publish-please",
+    "prepublish": "publish-please guard",
     "build": "./node_modules/.bin/webpack --config build/webpack.conf.js",
     "test:unit": "karma start test/unit/karma.conf.js --single-run",
     "test:security": "./node_modules/.bin/nsp check",
@@ -93,7 +95,9 @@
     "webpack": "^1.13.3",
     "webpack-dev-middleware": "^1.8.3",
     "webpack-hot-middleware": "^2.12.2",
-    "webpack-merge": "^0.14.1"
+    "webpack-merge": "^0.14.1",
+    "publish-please": "^2.2.0",
+    "vue-dev-server": "2.0.2"
   },
   "main": "index.js",
   "repository": {
@@ -101,7 +105,5 @@
     "type": "git"
   },
   "license": "MIT",
-  "dependencies": {
-    "vue-dev-server": "2.0.2"
-  }
+  "dependencies": {}
 }

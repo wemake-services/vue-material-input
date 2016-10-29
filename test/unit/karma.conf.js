@@ -5,15 +5,23 @@
 
 var path = require('path')
 var merge = require('webpack-merge')
-var baseConfig = require('../../build/webpack.base.conf')
-var utils = require('../../build/utils')
+var baseConfig = require('../../build/webpack.conf')
 var webpack = require('webpack')
 var projectRoot = path.resolve(__dirname, '../../')
 
 var webpackConfig = merge(baseConfig, {
   // use inline sourcemap for karma-sourcemap-loader
   module: {
-    loaders: utils.styleLoaders()
+    loaders: [
+      {
+        test: /\.scss$/,
+        loader: 'vue-style-loader!css-loader!sass-loader'
+      },
+      {
+        test: /\.css$/,
+        loader: 'vue-style-loader!css-loader'
+      }
+    ]
   },
   devtool: '#inline-source-map',
   vue: {
@@ -23,7 +31,7 @@ var webpackConfig = merge(baseConfig, {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': require('../../config/test.env')
+      'process.env': {NODE_ENV: '"testing"'}
     })
   ]
 })

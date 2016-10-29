@@ -6,7 +6,7 @@ Simple implementation of Material Input with no dependencies.
 
 ## Showcase
 
-![Showcase](https://raw.githubusercontent.com/wemake-services/vue-material-input/screenshots/vue-material-input.gif)
+![Showcase](https://github.com/wemake-services/vue-material-input/blob/master/screenshots/vue-material-input.gif?raw=true)
 
 ## Installation
 

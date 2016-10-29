@@ -7,9 +7,5 @@ export function getComponent (Component, propsData, dependencies) {
     }
   }
   const Ctor = Vue.extend(Component)
-  return new Ctor(
-    {
-      propsData
-    }
-  ).$mount()
+  return new Ctor({propsData}).$mount()
 }
