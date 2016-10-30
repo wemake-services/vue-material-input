@@ -1,12 +1,12 @@
 {
   "name": "vue-material-input",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Simple material input without dependencies",
   "author": "sobolevn <mail@sobolevn.me>",
   "private": false,
   "scripts": {
     "publish-please": "./node_modules/.bin/publish-please",
-    "ppublish": "publish-please guard && npm run publish-please",
+    "ppublish": "npm run build && publish-please guard && npm run publish-please && npm run ghpages",
     "build": "./node_modules/.bin/webpack --config build/webpack.conf.js",
     "test:unit": "karma start test/unit/karma.conf.js --single-run",
     "test:security": "./node_modules/.bin/nsp check",
