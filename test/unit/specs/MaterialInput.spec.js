@@ -37,4 +37,42 @@ describe('MaterialInput.vue', () => {
     const inst = getComponent(MaterialInput, {value: 'some'})
     expect(inst.hasValue).to.equal(true)
   })
+
+  it('sets valueCopy to be equal to passed value', () => {
+    const inst = getComponent(MaterialInput, {value: 'some'})
+    expect(inst.valueCopy).to.equal('some')
+  })
+
+  it('sets valid state on valid input', () => {
+    const inst = getComponent(MaterialInput, {
+      required: false
+    })
+
+    const input = inst.$el.querySelector('input')
+    expect(input.validity.valid).to.equal(true)
+  })
+
+  it('sets event listener when pattern prop is passed', () => {
+    const inst = getComponent(MaterialInput, {
+      pattern: {
+        regex: /\./,
+        message: 'Dot is required'
+      },
+      required: false
+    })
+
+    const input = inst.$el.querySelector('input')
+    input.dispatchEvent(new Event('input'))
+
+    expect(input.validity.valid).to.equal(false)
+  })
+
+  // it('renders correct classes when has value', () => {
+  //   const inst = getComponent(MaterialInput, {value: 'some'})
+  //   inst.valueCopy = 'some'
+
+  //   console.log(inst.$el.querySelector('input'))
+  //   expect(inst.$el.querySelector('input').getAttribute('class'))
+  //     .to.contain('material-input--has-value')
+  // })
 })

@@ -4,6 +4,17 @@
       name="validated-name"
       :minlength="4"
       :maxlength="10">Your name (from 4 to 10 chars)</MaterialInput>
+
+    <MaterialInput
+      name="regex-validation"
+      :required="false"
+      :pattern="pattern">This field must contain a dot</MaterialInput>
+
+    <MaterialInput
+      name="no-validation"
+      :required="false">This field is not required</MaterialInput>
+
+    <input class="material-validation-form-submit" type="submit" value="Submit">
   </form>
 </template>
 
@@ -12,6 +23,11 @@
 
   module.exports = {
     name: 'material-with-validation',
+    data () {
+      return {
+        pattern: {regex: /\./, message: 'The dot is required'}
+      }
+    },
     components: {
       MaterialInput
     }
@@ -26,6 +42,10 @@
 
     p {
       padding: 30px 0;
+    }
+
+    .material-validation-form-submit {
+      margin-top: 15px;
     }
   }
 </style>

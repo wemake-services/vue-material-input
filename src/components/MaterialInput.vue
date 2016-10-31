@@ -80,7 +80,6 @@
       :maxlength="maxlength"
       :required="required"
     >
-    <span class="material-input-highlight"></span>
     <span class="material-input-bar"></span>
 
     <label class="material-label">
@@ -104,16 +103,24 @@
     },
     mounted () {
       const vm = this
+      const input = this.$el.querySelector('input')
 
       if (this.value) { // value might not be provided
         // Here we are following the Vue2 convention on custom v-model:
         // https://github.com/vuejs/vue/issues/2873#issuecomment-223759341
         this.valueCopy = this.value
-        this.$el.querySelector(
-          'input'
-        ).addEventListener(
+        input.addEventListener(
           'input', (e) => vm.$emit('input', e.target.value), false
         )
+      }
+
+      if (this.pattern) {
+        input.addEventListener('input', (e) => {
+          const message = vm.pattern.regex.test(input.value) ?
+            '' : vm.pattern.message
+          // We might want to provide custom message for the pattern prop.
+          input.setCustomValidity(message)
+        })
       }
     },
     props: {
@@ -130,6 +137,10 @@
         default: 'text'
       },
       value: {
+        default: null
+      },
+      placeholder: {
+        type: String,
         default: null
       },
       readonly: {
@@ -158,6 +169,10 @@
       },
       maxlength: {
         type: Number,
+        default: null
+      },
+      pattern: {
+        type: Object,
         default: null
       },
       required: {
@@ -227,18 +242,15 @@
       &:focus {
         outline: none;
         border: none;
+        border-bottom: 1px solid transparent; // fixes the height issue
 
         & ~ .material-input-bar:before, & ~ .material-input-bar:after {
           width: 50%;
         }
-
-        & ~ .material-input-highlight {
-          animation: MIHighlighter 0.3s ease;
-        }
       }
 
       &:focus ~ label,
-      &:valid ~ label {
+      &.material-input--has-value:valid ~ label {
         @include slided-top();
         color: $color-blue;
       }
@@ -284,28 +296,6 @@
         @extend %base-bar-pseudo;
         right: 50%;
       }
-    }
-
-    .material-input-highlight {
-      position: absolute;
-      height: 60%;
-      width: 100px;
-      top: 25%;
-      left: 0;
-      pointer-events: none;
-      opacity: 0.5;
-    }
-  }
-
-  // Animation
-
-  @keyframes MIHighlighter {
-    from {
-      background: $color-blue;
-    }
-    to {
-      width: 0;
-      background: transparent;
     }
   }
 </style>
