@@ -62,17 +62,9 @@ describe('MaterialInput.vue', () => {
     })
 
     const input = inst.$el.querySelector('input')
+    /* eslint-disable no-undef */
     input.dispatchEvent(new Event('input'))
 
     expect(input.validity.valid).to.equal(false)
   })
-
-  // it('renders correct classes when has value', () => {
-  //   const inst = getComponent(MaterialInput, {value: 'some'})
-  //   inst.valueCopy = 'some'
-
-  //   console.log(inst.$el.querySelector('input'))
-  //   expect(inst.$el.querySelector('input').getAttribute('class'))
-  //     .to.contain('material-input--has-value')
-  // })
 })

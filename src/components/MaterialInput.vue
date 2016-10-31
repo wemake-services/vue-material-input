@@ -116,8 +116,8 @@
 
       if (this.pattern) {
         input.addEventListener('input', (e) => {
-          const message = vm.pattern.regex.test(input.value) ?
-            '' : vm.pattern.message
+          const message = vm.pattern.regex.test(input.value)
+            ? '' : vm.pattern.message
           // We might want to provide custom message for the pattern prop.
           input.setCustomValidity(message)
         })
