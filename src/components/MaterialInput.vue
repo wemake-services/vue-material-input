@@ -65,6 +65,20 @@
       :required="required"
     >
     <input
+      v-if="type === 'tel'"
+      type="tel"
+      class="material-input"
+      :class="{'material-input--has-value': hasValue}"
+      :name="name"
+      :id="id"
+      v-model="valueCopy"
+
+      :readonly="readonly"
+      :disabled="disabled"
+
+      :required="required"
+    >
+    <input
       v-if="type === 'text'"
       type="text"
       class="material-input"
@@ -80,6 +94,7 @@
       :maxlength="maxlength"
       :required="required"
     >
+
     <span class="material-input-bar"></span>
 
     <label class="material-label">
@@ -102,7 +117,6 @@
       }
     },
     mounted () {
-      const vm = this
       const input = this.$el.querySelector('input')
 
       if (this.value) { // value might not be provided
@@ -110,17 +124,42 @@
         // https://github.com/vuejs/vue/issues/2873#issuecomment-223759341
         this.valueCopy = this.value
         input.addEventListener(
-          'input', (e) => vm.$emit('input', e.target.value), false
+          'input', this.handleModelInput, false
         )
       }
 
       if (this.pattern) {
-        input.addEventListener('input', (e) => {
-          const message = vm.pattern.regex.test(input.value)
-            ? '' : vm.pattern.message
-          // We might want to provide custom message for the pattern prop.
-          input.setCustomValidity(message)
-        })
+        input.addEventListener(
+          'input', this.handleValidationInput, false
+        )
+      }
+    },
+    beforeDestroy () {
+      // Unbinding events:
+      const input = this.$el.querySelector('input')
+
+      if (this.value) {
+        input.removeEventListener(
+          'input', this.handleModelInput
+        )
+      }
+
+      if (this.pattern) {
+        input.removeEventListener(
+          'input', this.handleValidationInput
+        )
+      }
+    },
+    methods: {
+      handleModelInput (event) {
+        this.$emit('input', event.target.value)
+      },
+      handleValidationInput (event) {
+        const input = this.$el.querySelector('input')
+        const message = this.pattern.regex.test(input.value)
+          ? '' : this.pattern.message
+        // We might want to provide custom message for the pattern prop.
+        input.setCustomValidity(message)
       }
     },
     props: {

@@ -1,6 +1,6 @@
 {
   "name": "vue-material-input",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Simple material input without dependencies",
   "author": "sobolevn <mail@sobolevn.me>",
   "private": false,
@@ -78,13 +78,13 @@
     "opn": "^4.0.2",
     "ora": "^0.3.0",
     "phantomjs-prebuilt": "^2.1.3",
+    "publish-please": "^2.2.0",
     "sass-loader": "^4.0.2",
     "selenium-server": "2.53.1",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
     "url-loader": "^0.5.7",
     "vue": "^2.0.3",
-    "vue-dev-server": "^2.0.1",
     "vue-hot-reload-api": "^2.0.6",
     "vue-html-loader": "^1.2.3",
     "vue-loader": "^9.7.0",
@@ -95,15 +95,22 @@
     "webpack": "^1.13.3",
     "webpack-dev-middleware": "^1.8.3",
     "webpack-hot-middleware": "^2.12.2",
-    "webpack-merge": "^0.14.1",
-    "publish-please": "^2.2.0",
-    "vue-dev-server": "2.0.2"
+    "webpack-merge": "^0.14.1"
   },
   "main": "index.js",
   "repository": {
-    "url": "https://github.com/wemake-services/razgrebaem.ru.git",
+    "url": "https://github.com/wemake-services/vue-material-input.git",
     "type": "git"
   },
+  "keywords": [
+    "vue",
+    "component",
+    "material",
+    "input",
+    "wemake.services"
+  ],
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {
+    "vue-dev-server": "^2.0.4"
+  }
 }

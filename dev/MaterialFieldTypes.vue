@@ -1,11 +1,14 @@
 <template>
   <form class="material-field-type-form">
+    <a href="#">back</a>
+
     <p>Input types</p>
     <MaterialInput name="name" type="text">Text</MaterialInput>
     <MaterialInput name="name" type="password">Password</MaterialInput>
     <MaterialInput name="name" type="number">Number</MaterialInput>
     <MaterialInput name="name" type="url">URL</MaterialInput>
     <MaterialInput name="name" type="email">Email</MaterialInput>
+    <MaterialInput name="name" type="tel">Telephone</MaterialInput>
   </form>
 </template>
 
