@@ -6,6 +6,7 @@
     <MaterialInput name="name" type="number">Number</MaterialInput>
     <MaterialInput name="name" type="url">URL</MaterialInput>
     <MaterialInput name="name" type="email">Email</MaterialInput>
+    <MaterialInput name="name" type="tel">Telephone</MaterialInput>
   </form>
 </template>
 
