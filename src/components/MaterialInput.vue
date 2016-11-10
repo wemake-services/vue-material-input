@@ -4,9 +4,10 @@
       v-if="type === 'email'"
       type="email"
       class="material-input"
-      :class="{'material-input--has-value': hasValue}"
+      :class="computedClasses"
       :name="name"
       :id="id"
+      :placeholder="placeholder"
       v-model="valueCopy"
 
       :readonly="readonly"
@@ -18,9 +19,10 @@
       v-if="type === 'url'"
       type="url"
       class="material-input"
-      :class="{'material-input--has-value': hasValue}"
+      :class="computedClasses"
       :name="name"
       :id="id"
+      :placeholder="placeholder"
       v-model="valueCopy"
 
       :readonly="readonly"
@@ -32,9 +34,10 @@
       v-if="type === 'number'"
       type="number"
       class="material-input"
-      :class="{'material-input--has-value': hasValue}"
+      :class="computedClasses"
       :name="name"
       :id="id"
+      :placeholder="placeholder"
       v-model="valueCopy"
 
       :readonly="readonly"
@@ -51,9 +54,10 @@
       v-if="type === 'password'"
       type="password"
       class="material-input"
-      :class="{'material-input--has-value': hasValue}"
+      :class="computedClasses"
       :name="name"
       :id="id"
+      :placeholder="placeholder"
       v-model="valueCopy"
 
       :readonly="readonly"
@@ -68,9 +72,10 @@
       v-if="type === 'tel'"
       type="tel"
       class="material-input"
-      :class="{'material-input--has-value': hasValue}"
+      :class="computedClasses"
       :name="name"
       :id="id"
+      :placeholder="placeholder"
       v-model="valueCopy"
 
       :readonly="readonly"
@@ -82,9 +87,10 @@
       v-if="type === 'text'"
       type="text"
       class="material-input"
-      :class="{'material-input--has-value': hasValue}"
+      :class="computedClasses"
       :name="name"
       :id="id"
+      :placeholder="placeholder"
       v-model="valueCopy"
 
       :readonly="readonly"
@@ -107,8 +113,18 @@
   export default {
     name: 'material-input',
     computed: {
-      hasValue () {
-        return !!this.valueCopy
+      computedClasses () {
+        const classes = []
+
+        if (!!this.valueCopy) {
+          classes.push('material-input--has-value')
+        }
+
+        if (this.placeholder && !this.valueCopy) {
+          classes.push('material-input--has-placeholder')
+        }
+
+        return classes
       }
     },
     data () {
@@ -273,25 +289,36 @@
       padding: $spacer $spacer $spacer $spacer / 2;
       display: block;
       width: 100%;
-      border: none;
+
       background: none;
       color: $color-black;
+
+      border: none;
       border-bottom: 1px solid $color-grey-light;
+      border-radius: 0;
 
       &:focus {
         outline: none;
         border: none;
         border-bottom: 1px solid transparent; // fixes the height issue
 
-        & ~ .material-input-bar:before, & ~ .material-input-bar:after {
+        & ~ .material-input-bar:before,
+        & ~ .material-input-bar:after {
           width: 50%;
         }
       }
 
       &:focus ~ label,
+      &[readonly="readonly"] ~ label,
       &.material-input--has-value:valid ~ label {
         @include slided-top();
+
         color: $color-blue;
+      }
+
+      // Placeholder should not highlight label:
+      &.material-input--has-placeholder ~ label {
+        @include slided-top();
       }
 
       // When form validation is active these styles will

@@ -85,6 +85,7 @@
     "sinon-chai": "^2.8.0",
     "url-loader": "^0.5.7",
     "vue": "^2.0.3",
+    "vue-dev-server": "^2.0.4",
     "vue-hot-reload-api": "^2.0.6",
     "vue-html-loader": "^1.2.3",
     "vue-loader": "^9.7.0",
@@ -110,7 +111,5 @@
     "wemake.services"
   ],
   "license": "MIT",
-  "dependencies": {
-    "vue-dev-server": "^2.0.4"
-  }
+  "dependencies": {}
 }
