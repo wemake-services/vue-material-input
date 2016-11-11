@@ -31,11 +31,30 @@ describe('MaterialInput.vue', () => {
     expect(inst.value).to.equal(inst.valueCopy)
   })
 
-  it('returns correct hasValue() result', () => {
-    expect(component.hasValue).to.equal(false)
+  it('returns correct default computedClasses', () => {
+    expect(component.computedClasses).to.deep.equal([])
+  })
 
-    const inst = getComponent(MaterialInput, {value: 'some'})
-    expect(inst.hasValue).to.equal(true)
+  it('returns correct computedClasses with placeholder', () => {
+    const placeholder = getComponent(MaterialInput, {
+      placeholder: 'placeholder'
+    })
+
+    expect(placeholder.computedClasses).to.deep.equal([
+      'material-input--has-placeholder'
+    ])
+  })
+
+  it('returns correct computedClasses with value', () => {
+    const both = getComponent(MaterialInput, {
+      value: 'some',
+      placeholder: 'placeholder'
+    })
+
+    // placeholder should no exist in the result classes
+    expect(both.computedClasses).to.deep.equal([
+      'material-input--has-value'
+    ])
   })
 
   it('sets valueCopy to be equal to passed value', () => {
