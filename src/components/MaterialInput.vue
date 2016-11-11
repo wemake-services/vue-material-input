@@ -12,6 +12,7 @@
 
       :readonly="readonly"
       :disabled="disabled"
+      :autocomplete="autocomplete"
 
       :required="required"
     >
@@ -27,6 +28,7 @@
 
       :readonly="readonly"
       :disabled="disabled"
+      :autocomplete="autocomplete"
 
       :required="required"
     >
@@ -42,6 +44,7 @@
 
       :readonly="readonly"
       :disabled="disabled"
+      :autocomplete="autocomplete"
 
       :max="max"
       :min="min"
@@ -62,6 +65,7 @@
 
       :readonly="readonly"
       :disabled="disabled"
+      :autocomplete="autocomplete"
 
       :max="max"
       :min="min"
@@ -80,6 +84,7 @@
 
       :readonly="readonly"
       :disabled="disabled"
+      :autocomplete="autocomplete"
 
       :required="required"
     >
@@ -95,6 +100,7 @@
 
       :readonly="readonly"
       :disabled="disabled"
+      :autocomplete="autocomplete"
 
       :minlength="minlength"
       :maxlength="maxlength"
@@ -116,7 +122,7 @@
       computedClasses () {
         const classes = []
 
-        if (!!this.valueCopy) {
+        if (this.valueCopy) {
           classes.push('material-input--has-value')
         }
 
@@ -135,14 +141,12 @@
     mounted () {
       const input = this.$el.querySelector('input')
 
-      if (this.value) { // value might not be provided
-        // Here we are following the Vue2 convention on custom v-model:
-        // https://github.com/vuejs/vue/issues/2873#issuecomment-223759341
-        this.valueCopy = this.value
-        input.addEventListener(
-          'input', this.handleModelInput, false
-        )
-      }
+      // Here we are following the Vue2 convention on custom v-model:
+      // https://github.com/vuejs/vue/issues/2873#issuecomment-223759341
+      this.valueCopy = this.value
+      input.addEventListener(
+        'input', this.handleModelInput, false
+      )
 
       if (this.pattern) {
         input.addEventListener(
@@ -154,11 +158,9 @@
       // Unbinding events:
       const input = this.$el.querySelector('input')
 
-      if (this.value) {
-        input.removeEventListener(
-          'input', this.handleModelInput
-        )
-      }
+      input.removeEventListener(
+        'input', this.handleModelInput
+      )
 
       if (this.pattern) {
         input.removeEventListener(
@@ -233,6 +235,10 @@
       required: {
         type: Boolean,
         default: true
+      },
+      autocomplete: {
+        type: String,
+        default: null
       }
     }
   }

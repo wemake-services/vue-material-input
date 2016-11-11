@@ -4,6 +4,8 @@
 
     <p>Hello, {{ username }}</p>
     <MaterialInput name="name" v-model="username">Your name</MaterialInput>
+    <MaterialInput name="email" type="email" v-model="email">Your email</MaterialInput>
+    <p>We will send you a letter, {{ email }}</p>
   </form>
 </template>
 
@@ -14,7 +16,8 @@
     name: 'material-model',
     data: function () {
       return {
-        username: 'admin'
+        username: 'admin',
+        email: ''
       }
     },
     components: {

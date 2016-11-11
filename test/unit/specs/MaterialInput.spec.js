@@ -13,16 +13,10 @@ describe('MaterialInput.vue', () => {
       .to.equal('text')
   })
 
-  it('renders correct input type', () => {
+  it('renders correct custom input type', () => {
     const inst = getComponent(MaterialInput, {type: 'number'})
     expect(inst.$el.querySelector('input').type)
       .to.equal('number')
-  })
-
-  it('does not render input for wrong type', () => {
-    const inst = getComponent(MaterialInput, {type: 'doesnotexist'})
-    expect(inst.$el.querySelector('input'))
-      .to.equal(null)
   })
 
   it('copies the value when provided', () => {
