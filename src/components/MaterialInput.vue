@@ -180,6 +180,12 @@
         input.setCustomValidity(message)
       }
     },
+    watch: {
+      value (newValue) {
+        // This watch works from the code side of the 2-way-binding:
+        this.valueCopy = newValue
+      }
+    },
     props: {
       id: {
         type: String,

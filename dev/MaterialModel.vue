@@ -5,7 +5,11 @@
     <p>Hello, {{ username }}</p>
     <MaterialInput name="name" v-model="username">Your name</MaterialInput>
     <MaterialInput name="email" type="email" v-model="email">Your email</MaterialInput>
+
+    <input v-model="test">
     <p>We will send you a letter, {{ email }}</p>
+
+    <button type="button" @click="clean">Clean</button>
   </form>
 </template>
 
@@ -17,7 +21,15 @@
     data: function () {
       return {
         username: 'admin',
-        email: ''
+        email: '',
+        test: ''
+      }
+    },
+    methods: {
+      clean () {
+        this.username = ''
+        this.email = ''
+        this.test = ''
       }
     },
     components: {

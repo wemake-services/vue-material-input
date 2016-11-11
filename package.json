@@ -1,6 +1,6 @@
 {
   "name": "vue-material-input",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Simple material input without dependencies",
   "author": "sobolevn <mail@sobolevn.me>",
   "private": false,
@@ -10,7 +10,7 @@
     "build": "./node_modules/.bin/webpack --config build/webpack.conf.js",
     "test:unit": "karma start test/unit/karma.conf.js --single-run",
     "test:security": "./node_modules/.bin/nsp check",
-    "test": "npm run test:unit && npm run test:security",
+    "test": "npm run test:unit && npm run test:security && npm run lint",
     "lint": "eslint --ext .js,.vue src test/unit/specs dev",
     "dev:server": "./node_modules/.bin/vue-dev-server",
     "ghpages": "./node_modules/.bin/vue-dev-server --static docs/ && ./node_modules/.bin/gh-pages -d docs"

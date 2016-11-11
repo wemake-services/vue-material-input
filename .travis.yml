@@ -12,7 +12,7 @@ install:
   - yarn install
 
 script:
-  - npm run test:unit && npm run test:security && npm run lint
+  - npm run test
 
 after_success:
   - cat ./test/unit/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
