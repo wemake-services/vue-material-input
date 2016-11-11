@@ -135,14 +135,12 @@
     mounted () {
       const input = this.$el.querySelector('input')
 
-      if (this.value) { // value might not be provided
         // Here we are following the Vue2 convention on custom v-model:
         // https://github.com/vuejs/vue/issues/2873#issuecomment-223759341
         this.valueCopy = this.value
         input.addEventListener(
           'input', this.handleModelInput, false
         )
-      }
 
       if (this.pattern) {
         input.addEventListener(
