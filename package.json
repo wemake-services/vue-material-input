@@ -1,7 +1,7 @@
 {
   "name": "vue-material-input",
-  "version": "1.0.6",
-  "description": "Simple material input without dependencies",
+  "version": "1.1.0",
+  "description": "Simple material input with no dependencies",
   "author": "sobolevn <mail@sobolevn.me>",
   "private": false,
   "scripts": {
@@ -12,15 +12,14 @@
     "test:security": "./node_modules/.bin/nsp check",
     "test": "npm run test:unit && npm run test:security && npm run lint",
     "lint": "eslint --ext .js,.vue src test/unit/specs dev",
-    "dev:server": "./node_modules/.bin/vue-dev-server",
-    "ghpages": "./node_modules/.bin/vue-dev-server --static docs/ && ./node_modules/.bin/gh-pages -d docs"
+    "ghpages": "npm run play:build && ./node_modules/.bin/gh-pages -d dist-play",
+    "play": "vue-play start",
+    "play:build": "vue-play build"
   },
   "files": [
     "src/",
-    "dev/",
-    "build/",
-    "style.css",
-    "index.js",
+    "dist/",
+    "LICENSE.md",
     "README.md"
   ],
   "peerDependencies": {
@@ -79,18 +78,22 @@
     "ora": "^0.3.0",
     "phantomjs-prebuilt": "^2.1.3",
     "publish-please": "^2.2.0",
+    "raw-loader": "^0.5.1",
     "sass-loader": "^4.0.2",
     "selenium-server": "2.53.1",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
     "url-loader": "^0.5.7",
-    "vue": "^2.0.3",
-    "vue-dev-server": "^2.0.4",
+    "vee-validate": "next",
+    "vue": "2.0.5",
     "vue-hot-reload-api": "^2.0.6",
     "vue-html-loader": "^1.2.3",
     "vue-loader": "^9.7.0",
+    "vue-play": "2.1.0",
+    "vue-play-cli": "^1.0.3",
     "vue-router": "^2.0.1",
     "vue-style-loader": "^1.0.0",
+    "vue-template-compiler": "^2.0.5",
     "vueify": "^9.2.4",
     "vueify-insert-css": "^1.0.0",
     "webpack": "^1.13.3",
@@ -98,7 +101,7 @@
     "webpack-hot-middleware": "^2.12.2",
     "webpack-merge": "^0.14.1"
   },
-  "main": "index.js",
+  "main": "dist/index.js",
   "repository": {
     "url": "https://github.com/wemake-services/vue-material-input.git",
     "type": "git"

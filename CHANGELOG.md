@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 1.1.0
+
+- *Bracking* Removed `pattern` property, removed custom `pattern` validation
+- *Bracking* Now all files are build into `dist/`, not into `/`
+- We now support `vee-validation` plugin
+- We now use `vue-play` for the preview
+- Several `css` bugs fixed (like, `[disable]` not showing right)
+- Changed style language from `scss` from `sass`
+- Added new functionality to display custom errors via `errorMessages` prop
+
 ## Version 1.0.6
 
 - Fixes issue when it was impossible to set the `v-model` value from code

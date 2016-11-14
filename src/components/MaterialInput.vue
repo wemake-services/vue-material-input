@@ -112,6 +112,12 @@
     <label class="material-label">
       <slot></slot>
     </label>
+
+    <div v-if="errorMessages" class="material-errors">
+      <div v-for="error in errorMessages" class="material-error">
+        {{ error }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -128,6 +134,10 @@
 
         if (this.placeholder && !this.valueCopy) {
           classes.push('material-input--has-placeholder')
+        }
+
+        if (this.errorMessages && this.errorMessages.length) {
+          classes.push('material-input--has-errors')
         }
 
         return classes
@@ -147,12 +157,6 @@
       input.addEventListener(
         'input', this.handleModelInput, false
       )
-
-      if (this.pattern) {
-        input.addEventListener(
-          'input', this.handleValidationInput, false
-        )
-      }
     },
     beforeDestroy () {
       // Unbinding events:
@@ -161,23 +165,10 @@
       input.removeEventListener(
         'input', this.handleModelInput
       )
-
-      if (this.pattern) {
-        input.removeEventListener(
-          'input', this.handleValidationInput
-        )
-      }
     },
     methods: {
       handleModelInput (event) {
         this.$emit('input', event.target.value)
-      },
-      handleValidationInput (event) {
-        const input = this.$el.querySelector('input')
-        const message = this.pattern.regex.test(input.value)
-          ? '' : this.pattern.message
-        // We might want to provide custom message for the pattern prop.
-        input.setCustomValidity(message)
       }
     },
     watch: {
@@ -234,10 +225,6 @@
         type: Number,
         default: null
       },
-      pattern: {
-        type: Object,
-        default: null
-      },
       required: {
         type: Boolean,
         default: true
@@ -245,15 +232,20 @@
       autocomplete: {
         type: String,
         default: null
+      },
+      errorMessages: {
+        type: Array,
+        default: null
       }
     }
   }
 </script>
 
-<style lang="scss">
+<style lang="sass">
   // Fonts:
   $font-size-base: 16px;
   $font-size-small: 14px;
+  $font-size-smallest: 12px;
   $font-weight-normal: normal;
 
   // Colors:
@@ -322,6 +314,7 @@
 
       &:focus ~ label,
       &[readonly="readonly"] ~ label,
+      &[disabled="disabled"] ~ label,
       &.material-input--has-value:valid ~ label {
         @include slided-top();
 
@@ -335,7 +328,8 @@
 
       // When form validation is active these styles will
       // highlight the errored input.
-      &.material-input--has-value:invalid {
+      &.material-input--has-value:invalid,
+      &.material-input--has-value.material-input--has-errors {
         ~ .material-input-bar {
           &:before, &:after {
             background: $color-red;
@@ -373,6 +367,24 @@
       &:after {
         @extend %base-bar-pseudo;
         right: 50%;
+      }
+    }
+
+    // Styling errors:
+
+    .material-errors {
+      position: relative;
+      overflow: hidden;
+      color: $color-red;
+
+      .material-error {
+        font-size: $font-size-smallest;
+        line-height: $font-size-smallest + 2px;
+        overflow: hidden;
+        margin-top: 0;
+        padding-top: $spacer / 2;
+        padding-right: $spacer / 2;
+        padding-left: 0;
       }
     }
   }

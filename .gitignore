@@ -109,3 +109,7 @@ test/unit/coverage
 # vue-dev-server
 dev/index.js
 docs/
+
+# dist files
+dist/
+dist-play/
