@@ -1,6 +1,6 @@
 {
   "name": "vue-material-input",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Simple implementation of Material Input with no dependencies",
   "author": "sobolevn <mail@sobolevn.me>",
   "private": false,

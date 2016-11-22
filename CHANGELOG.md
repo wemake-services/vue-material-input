@@ -1,5 +1,17 @@
 # Changelog
 
+## Version 1.2.0
+
+- *Breaking* Refactored how classes works. Now they are applied on the root el$
+- *Breaking* Changed css-rules, old rules will not work.
+- Now `input` events are subscribed in template
+- Refactored how validation is handled
+- Now `:errorMessages` can be a `String`
+- Now `:disabled="true"` input has a dotted border
+- Fixed README.md and package.json
+
+Closes #30, closes #31, closes #32, closes #33, closes #35, closes #38
+
 ## Version 1.1.0
 
 - *Bracking* Removed `pattern` property, removed custom `pattern` validation
