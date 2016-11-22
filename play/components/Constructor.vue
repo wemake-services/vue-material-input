@@ -53,7 +53,8 @@
           value: null,
           disabled: false,
           readonly: false,
-          errorMessages: 'Error value'
+          errorMessages: null,
+          required: false
         }
       }
     },
