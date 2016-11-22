@@ -1,13 +1,13 @@
 <template>
   <div class="example">
-    <h1>
+    <h4>
       Validation
-    </h1>
+    </h4>
 
     <form @submit.prevent="submitHTMLForm">
-      <h2>
+      <h5>
         This example uses native html5 form validation
-      </h2>
+      </h5>
 
       <MaterialInput
         type="text"
@@ -25,10 +25,10 @@
     </form>
 
     <form @submit.prevent="submitVeeForm">
-      <h2>
+      <h5>
         This example uses
         <a href="http://vee-validate.logaretm.com/">vee-validate</a>
-      </h2>
+      </h5>
 
       <MaterialInput
         v-validate.initial="username"

@@ -1,10 +1,9 @@
 <template>
-  <div class="material-input__component">
+  <div class="material-input__component" :class="computedClasses">
     <input
       v-if="type === 'email'"
       type="email"
       class="material-input"
-      :class="computedClasses"
       :name="name"
       :id="id"
       :placeholder="placeholder"
@@ -15,12 +14,15 @@
       :autocomplete="autocomplete"
 
       :required="required"
+
+      @focus="handleFocus(true)"
+      @blur="handleFocus(false)"
+      @input="handleModelInput"
     >
     <input
       v-if="type === 'url'"
       type="url"
       class="material-input"
-      :class="computedClasses"
       :name="name"
       :id="id"
       :placeholder="placeholder"
@@ -31,12 +33,15 @@
       :autocomplete="autocomplete"
 
       :required="required"
+
+      @focus="handleFocus(true)"
+      @blur="handleFocus(false)"
+      @input="handleModelInput"
     >
     <input
       v-if="type === 'number'"
       type="number"
       class="material-input"
-      :class="computedClasses"
       :name="name"
       :id="id"
       :placeholder="placeholder"
@@ -52,12 +57,15 @@
       :minlength="minlength"
       :maxlength="maxlength"
       :required="required"
+
+      @focus="handleFocus(true)"
+      @blur="handleFocus(false)"
+      @input="handleModelInput"
     >
     <input
       v-if="type === 'password'"
       type="password"
       class="material-input"
-      :class="computedClasses"
       :name="name"
       :id="id"
       :placeholder="placeholder"
@@ -71,12 +79,15 @@
       :min="min"
       :step="step"
       :required="required"
+
+      @focus="handleFocus(true)"
+      @blur="handleFocus(false)"
+      @input="handleModelInput"
     >
     <input
       v-if="type === 'tel'"
       type="tel"
       class="material-input"
-      :class="computedClasses"
       :name="name"
       :id="id"
       :placeholder="placeholder"
@@ -87,12 +98,15 @@
       :autocomplete="autocomplete"
 
       :required="required"
+
+      @focus="handleFocus(true)"
+      @blur="handleFocus(false)"
+      @input="handleModelInput"
     >
     <input
       v-if="type === 'text'"
       type="text"
       class="material-input"
-      :class="computedClasses"
       :name="name"
       :id="id"
       :placeholder="placeholder"
@@ -105,6 +119,10 @@
       :minlength="minlength"
       :maxlength="maxlength"
       :required="required"
+
+      @focus="handleFocus(true)"
+      @blur="handleFocus(false)"
+      @input="handleModelInput"
     >
 
     <span class="material-input-bar"></span>
@@ -114,7 +132,7 @@
     </label>
 
     <div v-if="errorMessages" class="material-errors">
-      <div v-for="error in errorMessages" class="material-error">
+      <div v-for="error in computedErrors" class="material-error">
         {{ error }}
       </div>
     </div>
@@ -125,56 +143,57 @@
   export default {
     name: 'material-input',
     computed: {
+      computedErrors () {
+        return typeof this.errorMessages === 'string'
+          ? [this.errorMessages] : this.errorMessages
+      },
       computedClasses () {
-        const classes = []
-
-        if (this.valueCopy) {
-          classes.push('material-input--has-value')
+        return {
+          'material--active': this.focus,
+          'material--disabled': this.disabled,
+          'material--has-errors': Boolean(
+            !this.valid ||
+            (this.errorMessages && this.errorMessages.length)),
+          'material--raised': Boolean(
+            this.focus ||
+            this.valueCopy || // has value
+            (this.placeholder && !this.valueCopy)) // has placeholder
         }
-
-        if (this.placeholder && !this.valueCopy) {
-          classes.push('material-input--has-placeholder')
-        }
-
-        if (this.errorMessages && this.errorMessages.length) {
-          classes.push('material-input--has-errors')
-        }
-
-        return classes
       }
     },
     data () {
       return {
-        valueCopy: null
+        valueCopy: null,
+        focus: false,
+        valid: true
       }
     },
-    mounted () {
-      const input = this.$el.querySelector('input')
-
+    beforeMount () {
       // Here we are following the Vue2 convention on custom v-model:
       // https://github.com/vuejs/vue/issues/2873#issuecomment-223759341
-      this.valueCopy = this.value
-      input.addEventListener(
-        'input', this.handleModelInput, false
-      )
-    },
-    beforeDestroy () {
-      // Unbinding events:
-      const input = this.$el.querySelector('input')
-
-      input.removeEventListener(
-        'input', this.handleModelInput
-      )
+      this.copyValue(this.value)
     },
     methods: {
       handleModelInput (event) {
-        this.$emit('input', event.target.value)
+        this.$emit('input', event.target.value, event)
+        this.handleValidation()
+      },
+      handleFocus (focused) {
+        this.focus = focused
+      },
+      handleValidation () {
+        this.valid = this.$el ? this.$el.querySelector(
+          '.material-input').validity.valid : this.valid
+      },
+      copyValue (value) {
+        this.valueCopy = value
+        this.handleValidation()
       }
     },
     watch: {
       value (newValue) {
         // This watch works from the code side of the 2-way-binding:
-        this.valueCopy = newValue
+        this.copyValue(newValue)
       }
     },
     props: {
@@ -234,7 +253,7 @@
         default: null
       },
       errorMessages: {
-        type: Array,
+        type: [Array, String],
         default: null
       }
     }
@@ -248,14 +267,6 @@
   $font-size-smallest: 12px;
   $font-weight-normal: normal;
 
-  // Colors:
-  $color-white: white;
-  $color-grey: #9E9E9E;
-  $color-grey-light: #E0E0E0;
-  $color-blue: #2196F3;
-  $color-red: #F44336;
-  $color-black: black;
-
   // Utils
   $spacer: 10px;
   $transition: 0.2s ease all;
@@ -265,13 +276,12 @@
     content: '';
     height: 1px;
     width: 0;
-    bottom: 1px;
+    bottom: 0;
     position: absolute;
-    background: $color-blue;
     transition: $transition;
   }
 
-  // Mixins
+  // Mixins:
   @mixin slided-top() {
     top: -2 * $spacer;
     font-size: $font-size-small;
@@ -282,69 +292,28 @@
   .material-input__component {
     margin-top: 45px;
     position: relative;
-    background: $color-white;
 
     * {
       box-sizing: border-box;
     }
 
-    input {
+    .material-input {
       font-size: $font-size-base;
       padding: $spacer $spacer $spacer $spacer / 2;
       display: block;
       width: 100%;
 
-      background: none;
-      color: $color-black;
-
       border: none;
-      border-bottom: 1px solid $color-grey-light;
       border-radius: 0;
 
       &:focus {
         outline: none;
         border: none;
         border-bottom: 1px solid transparent; // fixes the height issue
-
-        & ~ .material-input-bar:before,
-        & ~ .material-input-bar:after {
-          width: 50%;
-        }
-      }
-
-      &:focus ~ label,
-      &[readonly="readonly"] ~ label,
-      &[disabled="disabled"] ~ label,
-      &.material-input--has-value:valid ~ label {
-        @include slided-top();
-
-        color: $color-blue;
-      }
-
-      // Placeholder should not highlight label:
-      &.material-input--has-placeholder ~ label {
-        @include slided-top();
-      }
-
-      // When form validation is active these styles will
-      // highlight the errored input.
-      &.material-input--has-value:invalid,
-      &.material-input--has-value.material-input--has-errors {
-        ~ .material-input-bar {
-          &:before, &:after {
-            background: $color-red;
-          }
-        }
-
-        ~ label {
-          @include slided-top();
-          color: $color-red;
-        }
       }
     }
 
-    label {
-      color: $color-grey;
+    .material-label {
       font-size: $font-size-base;
       font-weight: $font-weight-normal;
       position: absolute;
@@ -370,12 +339,38 @@
       }
     }
 
-    // Styling errors:
+    // Disabled state:
+
+    &.material--disabled {
+      .material-input {
+        border-bottom-style: dashed;
+      }
+    }
+
+    // Raised state:
+
+    &.material--raised {
+      .material-label {
+        @include slided-top();
+      }
+    }
+
+    // Active state:
+
+    &.material--active {
+      .material-input-bar {
+        &:before,
+        &:after {
+          width: 50%;
+        }
+      }
+    }
+
+    // Errors:
 
     .material-errors {
       position: relative;
       overflow: hidden;
-      color: $color-red;
 
       .material-error {
         font-size: $font-size-smallest;
@@ -385,6 +380,65 @@
         padding-top: $spacer / 2;
         padding-right: $spacer / 2;
         padding-left: 0;
+      }
+    }
+  }
+
+  // Theme:
+
+  $color-white: white;
+  $color-grey: #9E9E9E;
+  $color-grey-light: #E0E0E0;
+  $color-blue: #2196F3;
+  $color-red: #F44336;
+  $color-black: black;
+
+  .material-input__component {
+    background: $color-white;
+
+    .material-input {
+      background: none;
+      color: $color-black;
+      border-bottom: 1px solid $color-grey-light;
+    }
+
+    .material-label {
+      color: $color-grey;
+    }
+
+    .material-input-bar {
+      &:before,
+      &:after {
+        background: $color-blue;
+      }
+    }
+
+    // Active state:
+
+    &.material--active {
+      .material-label {
+        color: $color-blue;
+      }
+    }
+
+    // Errors:
+
+    &.material--has-errors {
+      // These styles are required
+      // for custom validation:
+      &.material--active .material-label {
+        color: $color-red;
+      }
+
+      .material-input-bar {
+        &:before,
+        &:after {
+          background: $color-red;
+        }
+      }
+
+      .material-errors {
+        color: $color-red;
       }
     }
   }

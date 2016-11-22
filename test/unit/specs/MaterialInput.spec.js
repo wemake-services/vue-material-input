@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 import MaterialInput from 'components/MaterialInput'
 import {getComponent} from '../utils'
 
@@ -29,10 +31,27 @@ describe('MaterialInput.vue', () => {
     expect(inst.value).to.equal(inst.valueCopy)
   })
 
+  it('watches for the value', (done) => {
+    const inst = getComponent(MaterialInput, {value: 'some'})
+    const other = 'other'
+    inst.value = other
+
+    Vue.nextTick(() => {
+      expect(inst.valueCopy).to.equal(other)
+
+      done()
+    })
+  })
+
   // Classes
 
   it('returns correct default computedClasses', () => {
-    expect(component.computedClasses).to.deep.equal([])
+    expect(component.computedClasses).to.deep.equal({
+      'material--active': false,
+      'material--disabled': false,
+      'material--has-errors': false,
+      'material--raised': false
+    })
   })
 
   it('returns correct computedClasses with placeholder', () => {
@@ -40,21 +59,12 @@ describe('MaterialInput.vue', () => {
       placeholder: 'placeholder'
     })
 
-    expect(placeholder.computedClasses).to.deep.equal([
-      'material-input--has-placeholder'
-    ])
-  })
-
-  it('returns correct computedClasses with value', () => {
-    const both = getComponent(MaterialInput, {
-      value: 'some',
-      placeholder: 'placeholder'
+    expect(placeholder.computedClasses).to.deep.equal({
+      'material--active': false,
+      'material--disabled': false,
+      'material--has-errors': false,
+      'material--raised': true
     })
-
-    // placeholder should no exist in the result classes
-    expect(both.computedClasses).to.deep.equal([
-      'material-input--has-value'
-    ])
   })
 
   it('returns correct computedClasses with errors', () => {
@@ -62,9 +72,38 @@ describe('MaterialInput.vue', () => {
       errorMessages: ['Error']
     })
 
-    expect(errors.computedClasses).to.deep.equal([
-      'material-input--has-errors'
-    ])
+    expect(errors.computedClasses).to.deep.equal({
+      'material--active': false,
+      'material--disabled': false,
+      'material--has-errors': true,
+      'material--raised': false
+    })
+  })
+
+  // Focus
+
+  it('handles focus', () => {
+    expect(component.focus).to.equal(false)
+
+    component.handleFocus(true)
+    expect(component.focus).to.equal(true)
+  })
+
+  // Events
+
+  it('emits input event', () => {
+    let test = null
+    const passed = true
+
+    component.$on('input', (value) => {
+      test = value
+    })
+
+    component.handleModelInput({
+      target: {value: passed}
+    })
+
+    expect(test).to.equal(passed)
   })
 
   // Validation
@@ -86,5 +125,25 @@ describe('MaterialInput.vue', () => {
 
     const input = inst.$el.querySelector('input')
     expect(input.validity.valid).to.equal(false)
+  })
+
+  it('returns correct computedErrors', () => {
+    // Array:
+    const errors = ['Error']
+    const listErrors = getComponent(MaterialInput, {
+      errorMessages: errors
+    })
+
+    expect(listErrors.computedErrors).to.deep.equal(errors)
+
+    // String:
+    const error = 'Some error'
+    const strErrors = getComponent(MaterialInput, {
+      errorMessages: error
+    })
+
+    expect(strErrors.computedErrors).to.deep.equal([
+      error // returns as a list
+    ])
   })
 })
